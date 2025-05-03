@@ -1,6 +1,9 @@
 SQL
+
 CREATE DATABASE Zahoo_DB;
+
 USE Zahoo_DB;
+
 CREATE TABLE users (
     id SERIAL PRIMARY KEY,
     username VARCHAR(50) UNIQUE NOT NULL,
