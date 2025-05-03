@@ -5,6 +5,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.core.app.NotificationCompat.MessagingStyle.Message
 import com.example.zahoo.ui.components.BottomNavigationBar
 import com.example.zahoo.ui.components.TopNavBar
 import com.example.zahoo.ui.screens.*
@@ -28,10 +29,24 @@ fun ZahooUI() {
                     onSignIn = { /* Add navigation or logic for Sign In */ },
                     onLogOut = { /* Add navigation or logic for Log Out */ }
                 )
-                1 -> FriendsScreen()
-                2 -> NotificationsScreen()
-                3 -> SettingsScreen()
-                4 -> ProfileScreen(
+                2 -> FriendsScreen()
+                3 -> NotificationsScreen()
+                4 -> {
+                    var selectedUser by remember { mutableStateOf<User?>(null) }
+
+                    if (selectedUser == null) {
+                        MessageListScreen(onUserSelected = { user ->
+                            selectedUser = user
+                        })
+                    } else {
+                        ChatScreen(user = selectedUser!!, onBack = {
+                            selectedUser = null
+                        })
+                    }
+                }
+
+                // -> SettingsScreen()
+                5 -> ProfileScreen(
                     name = "John Doe",
                     email = "johndoe@example.com",
                     postsCount = "12",

@@ -1,33 +1,31 @@
 package com.example.zahoo.ui.screens
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.*
+import androidx.compose.foundation.text.BasicTextField
+import androidx.compose.material3.*
 import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.text.input.TextFieldValue
 
 @Composable
 fun SignInScreen(
-    onSignIn: (username: String, password: String) -> Unit, // Pass sign-in logic
-    onSignInSuccess: () -> Unit
+    onSignIn: (String, String) -> Unit, // Tham số onSignIn
+    onSignInSuccess: () -> Unit // Tham số onSignInSuccess
 ) {
-    var username by remember { mutableStateOf("") }
-    var password by remember { mutableStateOf("") }
-    var errorMessage by remember { mutableStateOf<String?>(null) } // To show error messages
+    var username by remember { mutableStateOf(TextFieldValue()) }
+    var password by remember { mutableStateOf(TextFieldValue()) }
+    var errorMessage by remember { mutableStateOf("") }
 
     Column(
         modifier = Modifier
             .fillMaxSize()
             .padding(16.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-        Text("Sign In", style = MaterialTheme.typography.h5)
-
-        Spacer(modifier = Modifier.height(16.dp))
-
         TextField(
             value = username,
             onValueChange = { username = it },
@@ -41,34 +39,39 @@ fun SignInScreen(
             value = password,
             onValueChange = { password = it },
             label = { Text("Password") },
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(),
+            visualTransformation = PasswordVisualTransformation() // Thêm visualTransformation để ẩn mật khẩu
         )
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        errorMessage?.let {
-            Text(it, color = Color.Red, style = MaterialTheme.typography.body2)
-            Spacer(modifier = Modifier.height(8.dp))
-        }
-
         Button(
             onClick = {
-                val signInSuccessful = try {
-                    onSignIn(username, password)
-                    true
-                } catch (e: Exception) {
-                    errorMessage = e.message
-                    false
-                }
-
-                if (signInSuccessful) {
-                    onSignInSuccess()
+                if (username.text == "admin" && password.text == "1234") {
+                    onSignIn(username.text, password.text) // Gọi onSignIn khi đăng nhập thành công
+                    onSignInSuccess() // Sau khi đăng nhập thành công
+                } else {
+                    errorMessage = "Invalid username or password"
                 }
             },
-            modifier = Modifier.fillMaxWidth(),
-            colors = ButtonDefaults.buttonColors(backgroundColor = Color.Blue)
+            modifier = Modifier.fillMaxWidth()
         ) {
-            Text("Sign In", color = Color.White)
+            Text("Sign In")
+        }
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        if (errorMessage.isNotEmpty()) {
+            Text(text = errorMessage, color = Color.Red)
         }
     }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun PreviewSignInScreen() {
+    SignInScreen(
+        onSignIn = { username, password -> /* handle sign in */ },
+        onSignInSuccess = { /* handle success */ }
+    )
 }

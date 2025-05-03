@@ -26,14 +26,9 @@ class MainActivity : ComponentActivity() {
             // Show SignInScreen if not signed in
             SignInScreen(
                 onSignIn = { username, password ->
-                    if (username == "admin" && password == "1234") {
-                        // Simulate sign-in success
-                        isSignedIn = true
-                    } else {
-                        throw Exception("Invalid username or password")
-                    }
+                    // Xử lý đăng nhập nếu cần
                 },
-                onSignInSuccess = { isSignedIn = true }
+                onSignInSuccess = { isSignedIn = true } // Set lại trạng thái khi đăng nhập thành công
             )
         }
     }
