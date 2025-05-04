@@ -25,10 +25,7 @@ class MainActivity : ComponentActivity() {
         } else {
             // Show SignInScreen if not signed in
             SignInScreen(
-                onSignIn = { username, password ->
-                    // Xử lý đăng nhập nếu cần
-                },
-                onSignInSuccess = { isSignedIn = true } // Set lại trạng thái khi đăng nhập thành công
+                onSignInSuccess = { isSignedIn = true }
             )
         }
     }

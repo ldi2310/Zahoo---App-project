@@ -1,7 +1,6 @@
 package com.example.zahoo.ui.screens
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
@@ -10,15 +9,18 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.text.input.TextFieldValue
+import com.example.zahoo.repository.SignInRepository
 
 @Composable
 fun SignInScreen(
-    onSignIn: (String, String) -> Unit, // Tham số onSignIn
-    onSignInSuccess: () -> Unit // Tham số onSignInSuccess
+    onSignInSuccess: () -> Unit
 ) {
     var username by remember { mutableStateOf(TextFieldValue()) }
     var password by remember { mutableStateOf(TextFieldValue()) }
     var errorMessage by remember { mutableStateOf("") }
+    var isLoading by remember { mutableStateOf(false) }
+
+    val repository = remember { SignInRepository() }
 
     Column(
         modifier = Modifier
@@ -40,23 +42,28 @@ fun SignInScreen(
             onValueChange = { password = it },
             label = { Text("Password") },
             modifier = Modifier.fillMaxWidth(),
-            visualTransformation = PasswordVisualTransformation() // Thêm visualTransformation để ẩn mật khẩu
+            visualTransformation = PasswordVisualTransformation()
         )
 
         Spacer(modifier = Modifier.height(16.dp))
 
         Button(
             onClick = {
-                if (username.text == "admin" && password.text == "1234") {
-                    onSignIn(username.text, password.text) // Gọi onSignIn khi đăng nhập thành công
-                    onSignInSuccess() // Sau khi đăng nhập thành công
-                } else {
-                    errorMessage = "Invalid username or password"
+                isLoading = true
+                errorMessage = ""
+                repository.signIn(username.text, password.text) { success, message ->
+                    isLoading = false
+                    if (success) {
+                        onSignInSuccess()
+                    } else {
+                        errorMessage = message
+                    }
                 }
             },
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(),
+            enabled = !isLoading
         ) {
-            Text("Sign In")
+            Text(if (isLoading) "Signing In..." else "Sign In")
         }
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -71,7 +78,6 @@ fun SignInScreen(
 @Composable
 fun PreviewSignInScreen() {
     SignInScreen(
-        onSignIn = { username, password -> /* handle sign in */ },
         onSignInSuccess = { /* handle success */ }
     )
 }
