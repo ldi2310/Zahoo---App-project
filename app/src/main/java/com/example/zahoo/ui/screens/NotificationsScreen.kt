@@ -2,6 +2,8 @@
 
 package com.example.zahoo.ui.screens
 
+import androidx.compose.material3.DismissState
+import androidx.compose.material3.rememberDismissState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -14,6 +16,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.material3.SwipeToDismiss
+import androidx.compose.material3.DismissValue
 
 @Composable
 fun NotificationsScreen() {
@@ -76,8 +80,8 @@ fun SwipeToDeleteCard(
     onDelete: () -> Unit
 ) {
     val dismissState = rememberDismissState(
-        confirmValueChange = {
-            if (it == DismissValue.DismissedToEnd || it == DismissValue.DismissedToStart) {
+        confirmValueChange = { dismissValue ->
+            if (dismissValue == DismissValue.DismissedToEnd || dismissValue == DismissValue.DismissedToStart) {
                 onDelete()
                 true
             } else {
@@ -97,7 +101,7 @@ fun SwipeToDeleteCard(
             ) {
                 Text(
                     text = "Delete",
-                    color = Color.Transparent, // Hide text by default
+                    color = Color.White, // Thay đổi để hiển thị chữ "Delete" rõ ràng hơn
                     fontWeight = FontWeight.Bold,
                     fontSize = 16.sp
                 )
