@@ -62,3 +62,4 @@ CREATE TABLE order_items (
     quantity INTEGER,
     price_at_purchase NUMERIC(10,2)
 );
+# android
