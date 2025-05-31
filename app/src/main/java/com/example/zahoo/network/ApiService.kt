@@ -1,16 +1,6 @@
 package com.example.zahoo.network
 
-import com.example.zahoo.model.ForgotPasswordRequest
-import com.example.zahoo.model.ForgotPasswordResponse
-import com.example.zahoo.model.SignInRequest
-import com.example.zahoo.model.SignInResponse
-import com.example.zahoo.model.SignOutRequest
-import com.example.zahoo.model.SignOutResponse
-import com.example.zahoo.model.SignUpRequest
-import com.example.zahoo.model.SignUpResponse
-import com.example.zahoo.model.UpdateProfileRequest
-import com.example.zahoo.model.UpdateProfileResponse
-import com.example.zahoo.model.UserProfileResponse
+import com.example.zahoo.model.*
 import retrofit2.Call
 import retrofit2.http.*
 
@@ -35,4 +25,13 @@ interface ApiService {
 
     @POST("forgot-password")
     fun forgotPassword(@Body request: ForgotPasswordRequest): Call<ForgotPasswordResponse>
+
+    @GET("/posts")
+    fun getAllPosts(): Call<List<Post>>
+
+    @POST("/posts")
+    fun createPost(@Body post: CreatePostRequest): Call<CreatePostResponse>
+
+    @DELETE("/posts/{id}")
+    fun deletePost(@Path("id") postId: Int): Call<DeleteResponse>
 }
