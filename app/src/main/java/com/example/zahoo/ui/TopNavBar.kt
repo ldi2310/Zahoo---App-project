@@ -1,41 +1,23 @@
 package com.example.zahoo.ui.components
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Search
-import androidx.compose.material3.*
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.*
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.unit.*
-import androidx.navigation.NavHostController
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 
 @Composable
-fun TopNavBar(navController: NavHostController) {
+fun TopNavBar() {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(vertical = 16.dp),
-        horizontalArrangement = Arrangement.SpaceBetween,
+            .padding(16.dp),
+        horizontalArrangement = Arrangement.Center,
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Text(
-            text = "Zahoo",
-            fontSize = 40.sp,
-            color = Color.Blue,
-            modifier = Modifier.padding(start = 16.dp)
-        )
-
-        Icon(
-            imageVector = Icons.Default.Search,
-            contentDescription = "Search",
-            modifier = Modifier
-                .padding(end = 16.dp)
-                .size(40.dp)
-                .clickable {
-                    navController.navigate("search_screen") // ✅ điều hướng
-                }
-        )
+        Text("Zahoo", fontSize = 30.sp, color = Color.Blue)
     }
 }

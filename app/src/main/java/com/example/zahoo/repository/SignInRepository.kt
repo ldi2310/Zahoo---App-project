@@ -1,7 +1,7 @@
 package com.example.zahoo.repository
 
-import com.example.zahoo.SignInRequest
-import com.example.zahoo.SignInResponse
+import com.example.zahoo.model.SignInRequest
+import com.example.zahoo.model.SignInResponse
 import com.example.zahoo.network.RetrofitInstance
 import retrofit2.Call
 import retrofit2.Callback
